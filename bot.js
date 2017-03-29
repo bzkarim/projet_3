@@ -13,10 +13,24 @@ client.on('message', message => {
 			message.reply('pong');
 		}
 
-		if (message.content === 'blague') {
+		msg = message.content;
+		
+		var tabMots = msg.split(" "); 
+
+		// blague
+		if (/*msg.indexOf('blague') != 1*/ msg == 'blague') {
 			axios.get('http://www.chucknorrisfacts.fr/api/get?data=tri:alea;nb=1').then(function(response){
 				message.reply(response.data[0].fact);
 			}).catch(console.log); 
+			
+		}
+
+		// meteo en cours
+		if (tabMots[0] == 'meteo') {
+
+			axios.get('http://api.openweathermap.org/data/2.5/weather?q='+tabMots[1]+'&appid=a4b7c2bbdb83d7e413ec09dd4a653791').then(function(response){
+				message.reply("Meteo a "+tabMots[1]+" est "+response.data.weather[0].description);
+			}).catch(console.log);
 			
 		}
 	
